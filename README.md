@@ -68,15 +68,6 @@ python -m app
 
 It opens at http://localhost:8000.
 
-## Put it online for free (Hugging Face Spaces)
-
-1. Create an account at [huggingface.co](https://huggingface.co), then go to **New → Space**.
-2. Name it `autoagent`, choose **Docker** as the SDK and the **Blank** template, and set it to **Public**.
-3. In the Space, open **Files → Add file → Upload files** and upload the `app` folder, the `static` folder, `Dockerfile` and `requirements.txt`. Keep the README that Hugging Face created.
-4. Open **Settings → Variables and secrets** and add `GROQ_API_KEY` and `PEXELS_API_KEY` as **secrets**, plus `YOUTUBE_API_KEY` if you have one.
-5. Hugging Face builds it automatically in a few minutes. Your app is live at `https://huggingface.co/spaces/<your-name>/autoagent`.
-
-The same Dockerfile works on Render, Railway or Fly.io.
 
 ## Tests
 
