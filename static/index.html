@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AutoAgent: topic to finished video</title>
+  <meta name="description" content="Type a topic. AutoAgent writes the script, records the voiceover, finds footage and edits a ready-to-upload video with thumbnail, title, description and tags.">
+  <meta name="theme-color" content="#E1251B">
+  <link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="top">
+    <a class="brand" href="/" aria-label="AutoAgent home">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="9" fill="#E1251B"/><path d="M12.5 10.5v11l9-5.5z" fill="#fff"/></svg>
+      <span>AutoAgent</span>
+    </a>
+    <nav>
+      <a href="#how">How it works</a>
+      <a href="https://github.com/MuntahaJabbar12/autoagent" target="_blank" rel="noopener">GitHub</a>
+    </nav>
+  </header>
+
+  <main id="main">
+    <ol class="steps" aria-label="Progress">
+      <li data-step="topic" class="is-current">Topic</li>
+      <li data-step="ideas">Idea</li>
+      <li data-step="style">Style</li>
+      <li data-step="making">Making</li>
+      <li data-step="done">Done</li>
+    </ol>
+
+    <!-- 1. Topic, inside the viewfinder -->
+    <section class="panel" id="step-topic" aria-labelledby="h-topic">
+      <div class="viewfinder">
+        <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+        <div class="vf-meta">
+          <span class="rec"><i></i>REC</span>
+          <span class="tc" id="timecode">00:00:00:00</span>
+        </div>
+        <div class="vf-body">
+          <h1 id="h-topic">One topic in.<br>A finished video out.</h1>
+          <p class="lede">AutoAgent writes the script, records the voiceover, finds the footage and edits it together, ready to upload to your faceless channel.</p>
+          <form id="topic-form" class="topic-form" autocomplete="off">
+            <label for="topic" class="sr">What's your video about?</label>
+            <input id="topic" name="topic" maxlength="80" required placeholder="What's your video about?">
+            <button class="btn btn-red" type="submit"><span>Find ideas</span></button>
+          </form>
+          <div class="examples" aria-label="Example topics">
+            <span>Try</span>
+            <button type="button" class="chip">deep sea creatures</button>
+            <button type="button" class="chip">how credit scores work</button>
+            <button type="button" class="chip">ancient Rome</button>
+            <button type="button" class="chip">productivity habits</button>
+          </div>
+          <p class="form-error" id="topic-error" role="alert" hidden></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. Ideas -->
+    <section class="panel" id="step-ideas" hidden aria-labelledby="h-ideas">
+      <div class="panel-head">
+        <button class="back" type="button" data-go="topic">Change topic</button>
+        <h2 id="h-ideas">Pick an idea for <span id="topic-echo"></span></h2>
+        <p class="muted">Each one is written for a 1–2 minute narrated video. You can also write your own title.</p>
+      </div>
+      <div class="ideas" id="ideas" role="radiogroup" aria-labelledby="h-ideas"></div>
+      <div class="own">
+        <label for="own-title">Or use your own title</label>
+        <div class="own-row">
+          <input id="own-title" maxlength="120" placeholder="e.g. The ocean's strangest animals, explained">
+          <button class="btn btn-ghost" type="button" id="use-own">Use this title</button>
+        </div>
+      </div>
+      <details class="trending" id="trending" hidden>
+        <summary>Doing well on YouTube for this topic</summary>
+        <ul id="trending-list"></ul>
+      </details>
+    </section>
+
+    <!-- 3. Style -->
+    <section class="panel" id="step-style" hidden aria-labelledby="h-style">
+      <div class="panel-head">
+        <button class="back" type="button" data-go="ideas">Change idea</button>
+        <h2 id="h-style">Set the style</h2>
+        <p class="chosen" id="chosen-title"></p>
+      </div>
+      <form id="style-form" class="style">
+        <fieldset>
+          <legend>Format</legend>
+          <div class="seg seg-format">
+            <label><input type="radio" name="format" value="landscape" checked><span><i class="shape wide"></i>YouTube video<small>16:9</small></span></label>
+            <label><input type="radio" name="format" value="shorts"><span><i class="shape tall"></i>Shorts<small>9:16</small></span></label>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>Length</legend>
+            <div class="seg seg-3">
+            <label><input type="radio" name="length" value="short" checked><span>Short<small>about 45 seconds</small></span></label>
+            <label><input type="radio" name="length" value="standard"><span>Standard<small>about 90 seconds</small></span></label>
+            <label><input type="radio" name="length" value="long"><span>Long<small>about 5 minutes</small></span></label>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>Tone</legend>
+          <div class="seg seg-4">
+            <label><input type="radio" name="tone" value="curious" checked><span>Curious</span></label>
+            <label><input type="radio" name="tone" value="dramatic"><span>Dramatic</span></label>
+            <label><input type="radio" name="tone" value="calm"><span>Calm</span></label>
+            <label><input type="radio" name="tone" value="energetic"><span>Energetic</span></label>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>Voice</legend>
+          <div class="seg seg-4" id="voices"></div>
+        </fieldset>
+        <button class="btn btn-red btn-big" type="submit"><span>Make my video</span></button>
+        <p class="form-error" id="style-error" role="alert" hidden></p>
+      </form>
+    </section>
+
+    <!-- 4. Making -->
+    <section class="panel" id="step-making" hidden aria-labelledby="h-making">
+      <div class="panel-head">
+        <h2 id="h-making">Making your video</h2>
+        <p class="muted" id="making-title"></p>
+      </div>
+      <div class="timeline" aria-hidden="true">
+        <div class="track"><div class="fill" id="fill"></div></div>
+        <div class="playhead" id="playhead"><span id="pct">0%</span></div>
+      </div>
+      <p class="status-line" id="status-line" aria-live="polite">Starting</p>
+      <ol class="stages" id="stages"></ol>
+      <p class="muted small">Usually takes 1–3 minutes. You can keep this tab open in the background.</p>
+    </section>
+
+    <!-- 5. Done -->
+    <section class="panel" id="step-done" hidden aria-labelledby="h-done">
+      <div class="panel-head">
+        <h2 id="h-done">Your video is ready</h2>
+        <p class="muted" id="done-meta"></p>
+      </div>
+      <div class="result">
+        <div class="player" id="player-wrap"><video id="player" controls playsinline preload="metadata"></video></div>
+        <div class="downloads">
+          <a class="btn btn-red" id="dl-video" download><span>Download video</span></a>
+          <a class="btn btn-ghost" id="dl-thumb" download><span>Download thumbnail</span></a>
+          <a class="btn btn-ghost" id="dl-meta" download><span>Download metadata</span></a>
+        </div>
+      </div>
+
+      <div class="meta-grid">
+        <figure class="thumb">
+          <img id="thumb" alt="Generated thumbnail">
+          <figcaption>Thumbnail, 1280×720</figcaption>
+        </figure>
+        <div class="seo">
+          <div class="seo-head">
+            <div class="score" id="score" style="--v:0"><span id="score-num">0</span></div>
+            <div>
+              <h3>Upload details</h3>
+              <p class="muted small">Checked against YouTube best practice.</p>
+            </div>
+          </div>
+          <ul class="checks" id="checks"></ul>
+        </div>
+      </div>
+
+      <div class="copyblocks">
+        <div class="copyblock"><div class="cb-head"><h3>Title</h3><button class="copy" data-copy="seo-title">Copy</button></div><p id="seo-title"></p></div>
+        <div class="copyblock"><div class="cb-head"><h3>Description</h3><button class="copy" data-copy="seo-desc">Copy</button></div><p id="seo-desc" class="pre"></p></div>
+        <div class="copyblock"><div class="cb-head"><h3>Tags</h3><button class="copy" data-copy="seo-tags">Copy</button></div><p id="seo-tags"></p></div>
+      </div>
+
+      <details class="script-view">
+        <summary>Read the script</summary>
+        <ol id="script-list"></ol>
+      </details>
+
+      <div class="again">
+        <button class="btn btn-ghost" type="button" id="again"><span>Make another video</span></button>
+        <p class="muted small">Files are deleted from our server after 2 hours, so download what you want to keep.</p>
+      </div>
+    </section>
+
+    <section class="failed panel" id="step-failed" hidden aria-labelledby="h-failed">
+      <h2 id="h-failed">This video didn't finish</h2>
+      <p id="fail-reason"></p>
+      <div class="again">
+        <button class="btn btn-red" type="button" id="retry"><span>Try again</span></button>
+        <button class="btn btn-ghost" type="button" data-go="topic"><span>Start over</span></button>
+      </div>
+    </section>
+
+    <section class="how" id="how" aria-labelledby="h-how">
+      <h2 id="h-how">How it works</h2>
+      <ol class="how-list">
+        <li><b>Ideas.</b> Checks what's getting views on YouTube for your topic and suggests original angles.</li>
+        <li><b>Script.</b> Writes short spoken scenes, each paired with a footage search.</li>
+        <li><b>Voice.</b> Records each line with a natural-sounding voice, so captions match the speech exactly.</li>
+        <li><b>Footage.</b> Finds a different free stock clip from Pexels for every scene.</li>
+        <li><b>Edit.</b> Cuts, captions and joins everything into one MP4.</li>
+        <li><b>Publish kit.</b> Thumbnail, title, description and tags, checked against YouTube best practice.</li>
+      </ol>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <p>Footage and photos from <a href="https://www.pexels.com" target="_blank" rel="noopener">Pexels</a>. Built by <a href="https://github.com/MuntahaJabbar12" target="_blank" rel="noopener">Muntaha Jabbar</a>.</p>
+  </footer>
+
+  <script src="/static/app.js" defer></script>
+</body>
+</html>

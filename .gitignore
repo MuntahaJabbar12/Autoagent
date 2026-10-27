@@ -1,0 +1,17 @@
+# secrets: never commit these
+.env
+client_secrets.json
+token.json
+
+# generated
+output/
+*.mp4
+*.mp3
+seo_metadata.json
+
+# python
+__pycache__/
+*.pyc
+.venv/
+venv/
+.pytest_cache/
